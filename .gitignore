@@ -1,5 +1,22 @@
 cache/
+cache
 .ipynb_checkpoints/
 clases/cache 
 clases/.ipynb_checkpoints/
 clases/soluciones/*
+
+heuristicas
+# venvs
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS junk
+.DS_Store
+Thumbs.db
+

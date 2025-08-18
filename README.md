@@ -24,3 +24,25 @@ El siguiente calendario es **tentativo**.
 | 10 Nov<br><br>LNS y Undercover | 11 Nov<br><br> | 12 Nov<br><br>Ejemplos en non-convex quadratic (MIP Competition 2025) | 13 Nov<br><br> | 14 Nov<br><br> | 15 Nov<br><br> | 16 Nov<br><br> |
 | 17 Nov<br><br>Charla Timo Berthold | 18 Nov<br><br> | 19 Nov<br><br>Revisión de ideas de proyecto | 20 Nov<br><br> | 21 Nov<br><br> | 22 Nov<br><br> | 23 Nov<br><br> |
 | 24 Nov<br><br>Presentación de proyectos | 25 Nov<br><br> | 26 Nov<br><br>Presentación de proyectos | 27 Nov<br><br> | 28 Nov<br><br> | 29 Nov<br><br> | 30 Nov<br><br> |
+
+
+## Entorno virtual
+
+El repositorio ofrece un entorno virtual para poder trabajar con `OR-tools`, `gurobi`, `networkx` y más librerías. El uso del entorno virtual es **recomendado**, no así, necesario. De no utilizar el entorno virtual quizas lleguen a encontrar problemas de compatibilidad entre `OR-tools` y `tensorflow`. 
+
+Para los usuarios de Mac/Linux, correr: 
+
+```
+chmod +x setup_env.sh
+./setup_env.sh
+```
+Al querer usar el entorno virtual, simplemente correr `source heuristicas/bin/activate`. Para salir, deben ejecutar `deactivate`
+
+Para los usuarios de Windows, deben correr:
+
+```
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+.\setup_env.ps1
+```
+Para usar el entorno, correr `.\heuristicas\Scripts\Activate.ps1`.
+

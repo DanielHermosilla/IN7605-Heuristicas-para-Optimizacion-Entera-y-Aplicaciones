@@ -1,0 +1,19 @@
+# Núcleo
+numpy>=1.24,<3
+pandas>=2.0,<3
+networkx>=3.2,<4
+matplotlib>=3.8,<4
+joblib==1.2.0
+
+# OR-Tools + su protobuf compatible (no mezclar con TensorFlow en el mismo venv)
+ortools==9.12.4544
+protobuf>=5.29.3,<5.30
+
+# Heurísticas
+mlrose-hiive>=0.3.1,<0.4
+
+# Gurobi (se instala pero necesita licencia para resolver)
+gurobipy>=11.0.0,<12
+
+# Kernel de Jupyter
+ipykernel>=6,<7
