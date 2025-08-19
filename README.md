@@ -17,7 +17,7 @@ El siguiente calendario es **tentativo**.
 | 22 Sep<br><br>MILP: algoritmos exactos (branch and bound, branch and price) | 23 Sep<br><br> | 24 Sep<br><br>Introducción a Gurobi, implementaciones de branch and price | 25 Sep<br><br> | 26 Sep<br><br> | 27 Sep<br><br> | 28 Sep<br><br> |
 | 29 Sep<br><br>Relajaciones, redondeo y propagación | 30 Sep<br><br> | 1 Oct<br><br>Callbacks en Gurobi <br>Redondeo y propagación en callbacks | 2 Oct<br><br> | 3 Oct<br><br> | 4 Oct<br><br> | 5 Oct<br><br> |
 | 6 Oct<br><br>Local Branching y RINS | 7 Oct<br><br> | 8 Oct<br><br>RINS en callbacks | 9 Oct<br><br> | 10 Oct<br><br> | 11 Oct<br><br> | 12 Oct<br><br> |
-| 13 Oct<br><br>Feasibility Pump y Diving | 14 Oct<br><br> | 15 Oct<br><br>15 Oct:<br>Implementación en Gurobi<br>Comparaciones | 16 Oct<br><br> | 17 Oct<br><br> | 18 Oct<br><br> | 19 Oct<br><br> |
+| 13 Oct<br><br>Feasibility Pump y Diving | 14 Oct<br><br> | 15 Oct<br><br>Implementación en Gurobi<br>Comparaciones | 16 Oct<br><br> | 17 Oct<br><br> | 18 Oct<br><br> | 19 Oct<br><br> |
 | 20 Oct<br><br>Pivoteo y line search | 21 Oct<br><br> | 22 Oct<br><br>Pivoteo desde heurísticas anteriores | 23 Oct<br><br> | 24 Oct<br><br> | 25 Oct<br><br> | 26 Oct<br><br> |
 | 27 Oct<br><br> | 28 Oct<br><br> | 29 Oct<br><br> | 30 Oct<br><br> | 31 Oct<br><br> | 1 Nov<br><br> | 2 Nov<br><br> |
 | 3 Nov<br><br>MINLP y feasibility pump | 4 Nov<br><br> | 5 Nov<br><br>Relajaciones MINLP y código | 6 Nov<br><br> | 7 Nov<br><br> | 8 Nov<br><br> | 9 Nov<br><br> |
@@ -46,3 +46,8 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 Para usar el entorno, correr `.\heuristicas\Scripts\Activate.ps1`.
 
+##### Contactos
+
+- Fernando Ordoñez (profesor): `fordon@dii.uchile.cl`
+- Gonzalo Muñoz (profesor): `gonzalo.m@uchile.cl`
+- Daniel Hermosilla (auxiliar): `daniel.hermosilla.r@ug.uchile.cl`
