@@ -46,8 +46,8 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 Para usar el entorno, correr `.\heuristicas\Scripts\Activate.ps1`.
 
-##### Contactos
+# Contactos
 
-- Fernando Ordoñez (profesor): `fordon@dii.uchile.cl`
-- Gonzalo Muñoz (profesor): `gonzalo.m@uchile.cl`
-- Daniel Hermosilla (auxiliar): `daniel.hermosilla.r@ug.uchile.cl`
+- Fernando Ordoñez (profesor): [fordon@dii.uchile.cl](mailto:fordon@dii.uchile.cl)
+- Gonzalo Muñoz (profesor): [gonzalo.m@uchile.cl](gonzalo.m@uchile.cl)
+- Daniel Hermosilla (auxiliar): [daniel.hermosilla.r@ug.uchile.cl](mailto:daniel.hermosilla.r@ug.uchile.cl)
