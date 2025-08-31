@@ -155,20 +155,7 @@ def graficar(K, labels=False, edge_alpha=0.25, ciudad="santiago"):
     plt.show()
 
 
-# ======================================================================
-# Utilidades para leer instancias DIMACS de coloring y graficar
-# ======================================================================
-
-import math
-import networkx as nx
-import numpy as np
-import matplotlib.pyplot as plt
-
-
-# ----------------------------------------------------------------------
-# 1) Lector DIMACS (formato típico de OR-Tools / gcol*)
-# ----------------------------------------------------------------------
-def load_or_tools_col(path, relabel_zero_based=True):
+def cargarInstanciaORTools(path, relabel_zero_based=True):
     """
     Lee un archivo de coloración de grafos en formato DIMACS.
     Formato esperado (líneas típicas):
