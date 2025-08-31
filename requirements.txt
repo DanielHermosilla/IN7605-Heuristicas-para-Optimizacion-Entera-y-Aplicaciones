@@ -10,7 +10,10 @@ ortools==9.12.4544
 protobuf>=5.29.3,<5.30
 
 # Heurísticas
-mlrose-hiive>=0.3.1,<0.4
+mlrose-hiive>=2.2.4,<3
+
+# OSM y grafos urbanos
+osmnx>=1.9.3
 
 # Gurobi (se instala pero necesita licencia para resolver)
 gurobipy>=11.0.0,<12

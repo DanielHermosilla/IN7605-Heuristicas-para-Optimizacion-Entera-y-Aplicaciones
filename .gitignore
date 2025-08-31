@@ -6,6 +6,8 @@ clases/.ipynb_checkpoints/
 clases/soluciones/*
 
 !clases/soluciones/clase_1.ipynb
+!clases/soluciones/clase_2.ipynb
+
 
 heuristicas
 # venvs
