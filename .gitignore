@@ -1,0 +1,31 @@
+cache/
+cache
+.ipynb_checkpoints/
+clases/cache 
+clases/.ipynb_checkpoints/
+clases/soluciones/*
+
+!clases/soluciones/clase_1.ipynb
+!clases/soluciones/clase_2.ipynb
+
+
+heuristicas
+# venvs
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+manim
+manim/
+
+tarea1
+tarea1/
