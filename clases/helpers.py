@@ -4,6 +4,7 @@ import geopandas as gpd
 import networkx as nx
 import matplotlib.pyplot as plt
 import math
+from pathlib import Path
 
 
 def obtenerGrafo(cantidadNodos, seed=42, noise_level=0.7, ciudad="santiago"):

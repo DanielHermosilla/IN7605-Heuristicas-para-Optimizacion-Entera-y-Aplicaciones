@@ -1,0 +1,29 @@
+[project]
+name = "heuristicas"
+version = "0.1.0"
+description = "Curso Heurísticas para Optimización Entera y Aplicaciones"
+readme = "README.md"
+requires-python = ">=3.10,<3.13" 
+authors = [{ name = "Daniel Hermosilla" }]
+
+dependencies = [
+  "numpy>=1.24,<3",
+  "pandas>=2.0,<3",
+  "networkx>=3.2,<4",
+  "matplotlib>=3.8,<4",
+  "joblib==1.2.0",
+  "ortools==9.12.4544",
+  "protobuf>=5.29.3,<5.30",
+  "mlrose-hiive>=2.2.4,<3",
+  "osmnx>=1.9.3",
+  "gurobipy",
+  "ipykernel>=6,<7",
+  "jupyterlab-vim>=4.1.4",
+  "pycombinatorial>=2.1.0",
+  "tabulate>=0.9.0",
+  "vrplib>=1.4,<2.0",   
+	"pyvrp==0.11.3",      
+]
+
+[tool.uv]
+python-preference = "managed"  
