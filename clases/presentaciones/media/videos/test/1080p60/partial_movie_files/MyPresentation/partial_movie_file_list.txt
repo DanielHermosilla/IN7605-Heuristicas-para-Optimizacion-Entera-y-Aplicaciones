@@ -1,0 +1,3 @@
+# This file is used internally by FFMPEG.
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/test/1080p60/partial_movie_files/MyPresentation/3977891868_2328906803_2358810818.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/test/1080p60/partial_movie_files/MyPresentation/2852726489_2625806846_30607045.mp4'

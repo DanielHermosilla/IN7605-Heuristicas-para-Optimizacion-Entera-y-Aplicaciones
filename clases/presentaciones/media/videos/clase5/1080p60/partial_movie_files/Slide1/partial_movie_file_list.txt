@@ -1,0 +1,13 @@
+# This file is used internally by FFMPEG.
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/3977891868_3039170966_223132457.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_29661228_3820232857.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_1950298738_4065048843.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_4073313697_3906723007.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_1949060387_4065048843.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_1878071927_3906723007.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_4112442220_4065048843.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_1313587697_3906723007.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_2923485191_4065048843.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_3446123942_3906723007.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_2254444948_4065048843.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/clase5/1080p60/partial_movie_files/Slide1/2852726489_2802060154_3906723007.mp4'

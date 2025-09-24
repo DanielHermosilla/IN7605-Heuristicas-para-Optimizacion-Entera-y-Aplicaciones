@@ -1,0 +1,5 @@
+# This file is used internally by FFMPEG.
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/test/1080p60/partial_movie_files/test/3977891868_3397116628_223132457.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/test/1080p60/partial_movie_files/test/2852726489_1839128356_3388422520.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/test/1080p60/partial_movie_files/test/2852726489_3560045379_3935651407.mp4'
+file 'file:/Users/daniel/Desktop/Universidad/8avo Semestre/Heurísticas para Optimización Entera y Aplicaciones/manim/clase5/media/videos/test/1080p60/partial_movie_files/test/2852726489_2408024828_2998328208.mp4'
