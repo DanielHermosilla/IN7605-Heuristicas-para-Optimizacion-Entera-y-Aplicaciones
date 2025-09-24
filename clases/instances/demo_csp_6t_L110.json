@@ -1,0 +1,36 @@
+{
+  "name": "demo_csp_6t_L110",
+  "stock_length": 110,
+  "items": [
+    {
+      "id": 0,
+      "width": 33,
+      "demand": 5
+    },
+    {
+      "id": 1,
+      "width": 40,
+      "demand": 12
+    },
+    {
+      "id": 2,
+      "width": 15,
+      "demand": 28
+    },
+    {
+      "id": 3,
+      "width": 11,
+      "demand": 28
+    },
+    {
+      "id": 4,
+      "width": 51,
+      "demand": 7
+    },
+    {
+      "id": 5,
+      "width": 31,
+      "demand": 6
+    }
+  ]
+}

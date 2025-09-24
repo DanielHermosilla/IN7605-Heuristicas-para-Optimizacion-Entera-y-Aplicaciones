@@ -5,6 +5,11 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import math
 from pathlib import Path
+import json
+import csv
+import random
+import math
+import pathlib
 
 
 def obtenerGrafo(cantidadNodos, seed=42, noise_level=0.7, ciudad="santiago"):
@@ -405,4 +410,245 @@ def graficarColoracion(
     plt.tight_layout()
 
     # return fig, ax, pos
+    plt.show()
+
+
+# Cutting Stock instance generator (no typing, Py 3.9–3.11)
+import json
+import csv
+import random
+import math
+import pathlib
+import matplotlib.pyplot as plt
+
+
+class ItemType:
+    """Un tipo de pieza (ancho y demanda)."""
+
+    def __init__(self, _id, width, demand):
+        self.id = int(_id)
+        self.width = int(width)
+        self.demand = int(demand)
+
+    def to_dict(self):
+        return {"id": self.id, "width": self.width, "demand": self.demand}
+
+
+class CSPInstance:
+    """Instancia de Cutting Stock."""
+
+    def __init__(self, name, stock_length, items):
+        self.name = str(name)
+        self.stock_length = int(stock_length)  # L
+        self.items = list(items)
+
+    # -------- utilidades docentes --------
+    def total_width_demand(self):
+        return sum(it.width * it.demand for it in self.items)
+
+    def trivial_lower_bound_rolls(self):
+        """LB = ceil( sum_i d_i * w_i / L )."""
+        return math.ceil(self.total_width_demand() / self.stock_length)
+
+    def max_item_width(self):
+        return max(it.width for it in self.items) if self.items else 0
+
+    def is_basically_feasible(self):
+        """Factibilidad básica: todos w_i <= L y demandas >= 0."""
+        if any((it.width <= 0 or it.demand < 0) for it in self.items):
+            return False
+        return self.max_item_width() <= self.stock_length
+
+    # -------- guardado / carga --------
+    def to_json(self, path):
+        data = {
+            "name": self.name,
+            "stock_length": self.stock_length,
+            "items": [it.to_dict() for it in self.items],
+        }
+        path = pathlib.Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+
+    def to_csv(self, path):
+        """CSV: primera fila con comentario de L, luego header id,width,demand."""
+        path = pathlib.Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow([f"# stock_length = {self.stock_length}", "", ""])
+            w.writerow(["id", "width", "demand"])
+            for it in self.items:
+                w.writerow([it.id, it.width, it.demand])
+
+    @staticmethod
+    def from_json(path):
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        items = [ItemType(it["id"], it["width"], it["demand"]) for it in data["items"]]
+        return CSPInstance(data["name"], data["stock_length"], items)
+
+
+def generar_instancia_CSP(
+    n_types,
+    stock_length,
+    width_range=(5, 60),
+    demand_range=(5, 60),
+    tightness=0.65,
+    ensure_diversity=True,
+    seed=None,
+    name=None,
+):
+    """
+    Genera una instancia aleatoria de Cutting Stock.
+
+    Parámetros
+    ----------
+    n_types : cantidad de tipos de piezas.
+    stock_length : L (longitud del rollo grande).
+    width_range : (min_w, max_w) para anchos de pieza.
+    demand_range : (min_d, max_d) para demandas por tipo.
+    tightness : en (0,1]. Aprox. controla un sesgo hacia anchos más grandes.
+    ensure_diversity : intenta evitar que todos los anchos sean iguales.
+    seed : semilla RNG (reproducible).
+    name : nombre de la instancia.
+
+    Devuelve
+    --------
+    CSPInstance
+    """
+    rng = random.Random(seed)
+
+    min_w, max_w = width_range
+    min_d, max_d = demand_range
+    if not (1 <= min_w <= max_w < stock_length):
+        raise ValueError("width_range debe estar por debajo de L y min_w>=1")
+    if not (1 <= min_d <= max_d):
+        raise ValueError("demandas deben ser positivas")
+
+    # Sesgo sencillo: mezcla uniforme con u^2 (favorece valores altos según 'tightness').
+    def sample_width():
+        u = rng.random()
+        alpha = float(tightness)
+        u_prime = (1 - alpha) * u + alpha * (u**2)
+        w = min_w + int(u_prime * (max_w - min_w))
+        w = max(min_w, min(w, max_w))
+        # garantía de factibilidad básica
+        w = min(w, stock_length - 1)
+        return w
+
+    items = []
+    widths = []
+    for i in range(int(n_types)):
+        w = sample_width()
+        d = rng.randint(min_d, max_d)
+        items.append(ItemType(i, w, d))
+        widths.append(w)
+
+    if ensure_diversity and len(set(widths)) == 1 and n_types >= 2:
+        j = rng.randrange(n_types)
+        alt = rng.randint(min_w, max_w)
+        alt = min(alt, stock_length - 1)
+        items[j].width = alt
+
+    inst = CSPInstance(
+        name
+        or f"csp_{n_types}t_L{stock_length}_seed{seed if seed is not None else 'na'}",
+        stock_length,
+        items,
+    )
+    if not inst.is_basically_feasible():
+        raise ValueError("Instancia no es básicamente factible (revisa rangos).")
+    return inst
+
+
+def plotear_instancia_CSP(
+    inst,
+    patterns=None,
+    rolls_to_show=None,
+    bar_height=0.7,
+    colors=None,
+    title=None,
+):
+    """
+    Dibuja “rollos” como barras horizontales de longitud L.
+    Si entregas 'patterns' (lista de patrones, cada patrón es una lista de anchos), los dibuja secuencialmente.
+    Útil para docencia (no es solución).
+    """
+    L = inst.stock_length
+    if colors is None:
+        colors = [
+            "#3b82f6",
+            "#22c55e",
+            "#f59e0b",
+            "#ef4444",
+            "#a855f7",
+            "#06b6d4",
+            "#84cc16",
+            "#e11d48",
+        ]
+    if patterns is None:
+        patterns = [[] for _ in range(3)]
+    if rolls_to_show is not None:
+        patterns = patterns[:rolls_to_show]
+
+    H = len(patterns) * (bar_height + 0.35) + 0.6
+    plt.figure(figsize=(10, max(2.5, H)))
+    y = 0.5
+
+    for r_idx, pat in enumerate(patterns):
+        # fondo del rollo
+        plt.hlines(y, 0, L, colors="lightgray", linewidth=8, alpha=0.7)
+        # piezas
+        x0 = 0
+        for k, w in enumerate(pat):
+            x1 = x0 + w
+            plt.fill_between(
+                [x0, x1],
+                [y - bar_height / 2, y - bar_height / 2],
+                [y + bar_height / 2, y + bar_height / 2],
+                color=colors[k % len(colors)],
+                alpha=0.9,
+            )
+            plt.text(
+                (x0 + x1) / 2,
+                y,
+                str(w),
+                ha="center",
+                va="center",
+                color="white",
+                fontsize=10,
+            )
+            x0 = x1
+        # sobrante
+        if x0 < L:
+            plt.fill_between(
+                [x0, L],
+                [y - bar_height / 2, y - bar_height / 2],
+                [y + bar_height / 2, y + bar_height / 2],
+                color="#e5e7eb",
+                alpha=0.8,
+            )
+            plt.text(
+                (x0 + L) / 2,
+                y,
+                "gap=" + str(L - x0),
+                ha="center",
+                va="center",
+                color="#374151",
+                fontsize=9,
+            )
+        y += bar_height + 0.35
+
+    plt.xlim(0, L)
+    plt.ylim(0, y + 0.2)
+    plt.xlabel("Longitud usada sobre el rollo (L)")
+    t = title or "{} — L={}, tipos={}, LB={}".format(
+        inst.name, L, len(inst.items), inst.trivial_lower_bound_rolls()
+    )
+    plt.title(t)
+    plt.yticks([])
+    plt.grid(axis="x", alpha=0.25)
+    plt.tight_layout()
     plt.show()
