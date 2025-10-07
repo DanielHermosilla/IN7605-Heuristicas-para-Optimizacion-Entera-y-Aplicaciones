@@ -8,6 +8,7 @@ clases/soluciones/*
 !clases/soluciones/clase_1.ipynb
 !clases/soluciones/clase_2.ipynb
 
+tutorialGurobi
 uv.lock
 .python-version
 heuristicas

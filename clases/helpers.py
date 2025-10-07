@@ -413,15 +413,6 @@ def graficarColoracion(
     plt.show()
 
 
-# Cutting Stock instance generator (no typing, Py 3.9–3.11)
-import json
-import csv
-import random
-import math
-import pathlib
-import matplotlib.pyplot as plt
-
-
 class ItemType:
     """Un tipo de pieza (ancho y demanda)."""
 
@@ -652,3 +643,139 @@ def plotear_instancia_CSP(
     plt.grid(axis="x", alpha=0.25)
     plt.tight_layout()
     plt.show()
+
+def instancia_knapsack(n=60, m=3, density=0.6, seed=42, pesos_chicos = False):
+    """
+    n: número de ítems
+    m: número de restricciones de capacidad
+    density: correlación objetivo/pesos (más alto, más “fácil”; bajarlo complica)
+    """
+    rng = np.random.default_rng(seed)
+    # Valores con algo de correlación con pesos para que no sea trivial
+    if not pesos_chicos:
+        W = rng.integers(5, 45, size=(m, n))   # pesos por restricción
+    else:
+        W = rng.integers(1,6, size = (m,n))
+    base_v = W.mean(axis=0)
+    noise  = rng.normal(0, base_v.std() if base_v.std() > 0 else 1.0, size=n)
+    v = np.maximum(1, (density*base_v + (1-density)*noise)).astype(float)
+    # Capacidades ~ 35% de la suma de pesos
+    caps = (0.35 * W.sum(axis=1)).astype(int)
+    return v, W, caps
+
+
+def _slice_safe(a, omit_first):
+    a = np.array(a, dtype=float)
+    return a[1:] if (omit_first and len(a) > 1) else a
+
+def plot_callback(m, omit_first=True, log_scale=False, save_prefix=None, show=True, tight=True):
+    """
+    Grafica:
+      1) LB/UB vs Nodos + (eje secundario) lazy acumuladas
+      2) Lazy agregadas por evento
+      3) Brecha (UB-LB) vs Nodos
+      4) Magnitud de violaciones por evento (si hay)
+
+    Parámetros:
+      - omit_first: omite la primera observación de las series (útil si arranca con NaNs o valores triviales).
+      - log_scale : aplica log a LB/UB (no a lazy).
+      - save_prefix: si no es None, guarda PNGs con ese prefijo.
+      - show: si True, muestra las figuras.
+      - tight: si True, usa tight_layout().
+    """
+    # --- Series básicas del modelo ---
+    nodes = _slice_safe(m._nodes_hist, omit_first)
+    lb    = _slice_safe(m._lb_hist,    omit_first)
+    ub    = _slice_safe(m._ub_hist,    omit_first)
+
+    # Lazy acumuladas registradas durante MIP (alineadas a nodes)
+    lazy_acc = _slice_safe(getattr(m, "_lazy_hist", []), omit_first)
+    # Lazy agregadas por evento MIPSOL (no siempre mismo largo que nodes)
+    lazy_per = np.array(getattr(m, "_lazy_per_event", []), dtype=float)
+
+    # Alineación defensiva (por si longitudes difieren)
+    L = min(len(nodes), len(lb), len(ub))
+    if len(lazy_acc) != L:
+        # re-corta a L si existe; si no existe, crea ceros
+        if len(lazy_acc) >= L:
+            lazy_acc = lazy_acc[:L]
+        else:
+            # completa con último valor o ceros
+            fill = (lazy_acc[-1] if len(lazy_acc) > 0 else 0.0)
+            lazy_acc = np.pad(lazy_acc, (0, L - len(lazy_acc)), constant_values=fill)
+    nodes, lb, ub = nodes[:L], lb[:L], ub[:L]
+
+    # Log opcional
+    lb_plot = np.log(lb) if log_scale else lb
+    ub_plot = np.log(ub) if log_scale else ub
+    y_label = "log(Valor objetivo)" if log_scale else "Valor objetivo"
+
+    figs = []
+
+    # 1) LB/UB vs Nodos + lazy acumuladas (eje derecho)
+    fig1, ax1 = plt.subplots(figsize=(8,5))
+    ax1.plot(nodes, lb_plot, marker="o", label="LB (incumbente)")
+    ax1.plot(nodes, ub_plot, marker="x", label="UB (best bound)")
+
+    ax1.set_xlabel("Nodos explorados")
+    ax1.set_ylabel(y_label)
+    ax1.grid(True)
+    ax1.legend(loc="best")
+
+    ax2 = ax1.twinx()
+    ax2.step(nodes, lazy_acc, where="post", label="# lazy acumuladas")
+    ax2.set_ylabel("# lazy acumuladas")
+    ax2.legend(loc="upper left")
+
+    if tight: plt.tight_layout()
+    if save_prefix: fig1.savefig(f"{save_prefix}_lb_ub_lazy.png", dpi=150)
+    figs.append(fig1)
+
+    if lazy_per.size > 0:
+        fig2, ax = plt.subplots(figsize=(8,4))
+        ax.bar(np.arange(1, len(lazy_per)+1), lazy_per)
+        ax.set_xlabel("Evento MIPSOL (orden de aparición)")
+        ax.set_ylabel("Lazy agregadas en el evento")
+        ax.set_title("Lazy agregadas por evento")
+        ax.grid(axis="y", linestyle="--", alpha=0.4)
+        if tight: plt.tight_layout()
+        if save_prefix: fig2.savefig(f"{save_prefix}_lazy_per_event.png", dpi=150)
+        figs.append(fig2)
+
+    if L > 0:
+        denom = np.maximum(1.0, np.maximum(np.abs(ub), np.abs(lb)))
+        gap_rel = (ub - lb) / denom
+        fig3, ax = plt.subplots(figsize=(8,4))
+        ax.plot(nodes, gap_rel, marker="s")
+        ax.set_xlabel("Nodos explorados")
+        ax.set_ylabel("Brecha relativa (UB - LB) / max(|UB|,|LB|,1)")
+        ax.set_title("Evolución de la brecha")
+        ax.grid(True)
+        if tight: plt.tight_layout()
+        if save_prefix: fig3.savefig(f"{save_prefix}_gap.png", dpi=150)
+        figs.append(fig3)
+
+    viol = getattr(m, "_violations", [])
+    if len(viol) > 0:
+        # viol = lista de (t_index, j, amount)
+        viol = np.array(viol, dtype=float)
+        t_idx = viol[:,0]  # índice aproximado del evento (ligado a nodes logging)
+        j_idx = viol[:,1]
+        amt   = viol[:,2]
+
+        fig4, ax = plt.subplots(figsize=(8,4))
+        scatter = ax.scatter(t_idx, amt, s=30)
+        ax.set_xlabel("Índice de evento (aprox. alineado con nodes)")
+        ax.set_ylabel("Magnitud de violación")
+        ax.set_title("Violaciones detectadas en incumbentes (MIPSOL)")
+        ax.grid(True)
+        if tight: plt.tight_layout()
+        if save_prefix: fig4.savefig(f"{save_prefix}_violations.png", dpi=150)
+        figs.append(fig4)
+
+    if show:
+        plt.show()
+    else:
+        plt.close('all')
+
+    return figs
